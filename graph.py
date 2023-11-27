@@ -1,5 +1,6 @@
 import collections
 import math
+import ast
 
 class Graph:
     def __init__(self, pathFile, adjacencyList=False):
@@ -108,13 +109,25 @@ class Graph:
     
     def DataReader(self, pathFile, adjacencyList):
         if adjacencyList:
-            lista_adjacencia = {}
-            with open('arquivo.txt', 'r') as f:
-                for linha in f:
-                    chave, valor = linha.strip().split(':', 1)
-                    lista_adjacencia[chave] = ast.literal_eval(valor.strip())
+            result = '{'
             
-            TransformData(lista_adjacencia)
+            with open(pathFile, 'r') as file:
+                for linha in file:
+                    result += linha.strip() + ','
+                    
+            result += '}'
+            print(result)
+            listDict = ast.literal_eval(result)
+            
+            for chave, valores in listDict.items():
+                for valor in valores:
+                    vertex, peso = valor
+                    if str(chave) not in self.vertices:
+                        self.add_vertex(str(chave))
+                    if str(vertex) not in self.vertices:
+                        self.add_vertex(str(vertex))
+                    self.add_edge(str(chave), str(vertex), int(peso))
+            #print(listDict)
                         
         else:
             with open(pathFile, 'r') as file:
@@ -125,10 +138,4 @@ class Graph:
                         self.add_vertex(data[2])
                         self.add_edge(data[1], data[2], int(data[3]))
         
-        print(self.edges)
-        
-    def TransformData(listAdjacency):
-        result = ""
-        for 
-        
-        
+        #print(self.edges)
