@@ -4,8 +4,8 @@ from graph import Graph
 #print(g.n())  # Number of vertices
 #print(g.m())  # Number of edges
 
-g2 = Graph("Teste.txt")
-print(g2.n())
-print(g2.m())
-print(g2.mind())
-print(g2.maxd())
+g = Graph("TesteAdjacencia.txt", True)
+print("Numero de vertices : ",g.n(), "\n")
+print("Numero de arestas : ",g.m(), "\n")
+#print(g.mind())
+#print(g.maxd())

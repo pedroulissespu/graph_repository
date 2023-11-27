@@ -1,6 +1,8 @@
 import collections
 import math
 import ast
+import re
+import json
 
 class Graph:
     def __init__(self, pathFile, adjacencyList=False):
@@ -9,18 +11,23 @@ class Graph:
         self.DataReader(pathFile,adjacencyList)
 
     def add_vertex(self, v):
-        self.vertices[v] = []
+        if v not in self.vertices:
+            self.vertices[v] = {}
 
     def add_edge(self, u, v, w):
-        self.edges.append((u, v, w))
-        self.vertices[u].append((v, w))
-        self.vertices[v].append((u, w))
+        self.add_vertex(u)
+        self.add_vertex(v)
+        
+        self.vertices[u][v] = w
+        
+        self.edges.append((u,v,w))
 
     def n(self):
-        return len(self.vertices)
+        return len(self.vertices.keys())
 
     def m(self):
         return len(self.edges)
+        #return sum(len(v) for v in self.vertices.values()) // 2
 
     def viz(self, v):
         return [u for u, w in self.vertices[v]]
@@ -109,25 +116,30 @@ class Graph:
     
     def DataReader(self, pathFile, adjacencyList):
         if adjacencyList:
-            result = '{'
+            result = '{\n'
             
             with open(pathFile, 'r') as file:
                 for linha in file:
-                    result += linha.strip() + ','
+                    result += linha.strip("\n") + ',\n'
                     
             result += '}'
-            print(result)
+            result = re.sub(r"(\w+):", r"'\1':", result)
+            #print(result)
             listDict = ast.literal_eval(result)
             
             for chave, valores in listDict.items():
                 for valor in valores:
                     vertex, peso = valor
-                    if str(chave) not in self.vertices:
-                        self.add_vertex(str(chave))
-                    if str(vertex) not in self.vertices:
-                        self.add_vertex(str(vertex))
+                    self.add_vertex(str(chave))
+                    self.add_vertex(str(vertex))
                     self.add_edge(str(chave), str(vertex), int(peso))
-            #print(listDict)
+            
+            stringTeste = ""
+            with open('saida.txt', 'w') as file:
+                for key in listDict:
+                    stringTeste += str(list(listDict[key])) + "\n"
+                file.write(json.dumps(stringTeste))
+            
                         
         else:
             with open(pathFile, 'r') as file:
