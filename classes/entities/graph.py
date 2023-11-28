@@ -1,6 +1,9 @@
 import collections
 import math
 import heapq
+import sys
+
+sys.setrecursionlimit(1000000000)
 
 class Graph:
     def __init__(self, pathFile=str):
@@ -46,10 +49,10 @@ class Graph:
         return None
 
     def mind(self):
-        return min([self.d(vertex) for vertex in self.listaAdjacencia.keys()])
+        return min([self.d(vertex) for vertex in self.listaAdjacencia.keys()]) // 2
 
     def maxd(self):
-        return max([self.d(vertex) for vertex in self.listaAdjacencia.keys()])
+        return max([self.d(vertex) for vertex in self.listaAdjacencia.keys()]) // 2
 
     def bfs(self, v):
         d = {v: 0}
@@ -63,26 +66,51 @@ class Graph:
                     pi[vertex] = u
                     queue.append(vertex)
         return d, pi
-        
+    
     def dfs(self, v):
-        pi = {v: None}
-        v_ini = {}
-        v_fim = {}
+        visitado = {i: False for i in self.listaAdjacencia}
+        tempo_inicio = {i: float('inf') for i in self.listaAdjacencia}
+        tempo_fim = {i: float('inf') for i in self.listaAdjacencia}
+        predecessor = {i: None for i in self.listaAdjacencia}
         tempo = [0]
 
         def dfs_visit(u):
             tempo[0] += 1
-            v_ini[u] = tempo[0]
-            for vertex, weight in self.vertices[u]:
-                if vertex not in v_ini:
-                    pi[vertex] = u
-                    dfs_visit(vertex)
+            tempo_inicio[u] = tempo[0]
+            visitado[u] = True
+            for vizinho, _ in self.listaAdjacencia[u]:
+                if not visitado[vizinho]:
+                    predecessor[vizinho] = u
+                    dfs_visit(vizinho)
             tempo[0] += 1
-            v_fim[u] = tempo[0]
+            tempo_fim[u] = tempo[0]
 
         dfs_visit(v)
-        return pi, v_ini, v_fim
+        return predecessor, tempo_inicio, tempo_fim
 
+    def encontre_caminho(self, v):
+        visitado = {i: False for i in self.listaAdjacencia}
+        caminho = []
+
+        def dfs(v):
+            visitado[v] = True
+            caminho.append(v)
+
+            if len(caminho) >= 10:
+                return True
+
+            for vizinho, _ in self.listaAdjacencia[v]:
+                if not visitado[vizinho] and dfs(vizinho):
+                    return True
+
+            caminho.pop()
+            return False
+
+        if dfs(v):
+            return caminho
+        else:
+            return None
+        
     def bf(self, v):
         d = {u: math.inf for u in self.vertices}
         d[v] = 0
@@ -120,47 +148,10 @@ class Graph:
                     
         return d, pi
     
-    def find_path(self, v, T):
-        path = []
-        init = v
-        
-        while T[init] is not None:
-            path.insert(0, init)
-            init = T[init]
-            
-        path.insert(0, init)
-        
-        if len(path) < 10:
-            print("O caminho não possui mais que 10 arestas")
-            return None
-        else:
-            return path
-    
-    def find_path_with_dijkstra(self, v):
-        d, pi = self.dijkstra(v)
-        path = self.find_path(v, pi)
-        return d, path
-    
-    def DataReader(self, pathFile):
-        """with open(pathFile, 'r') as file:
-            for line in file:
-                result = "{"
-                result += re.sub(r"(\w+):", r"'\1':", line)
-                result += "}"
-                listDict = {}
-                listDict = ast.literal_eval(result)
-                print(listDict)
-                for chave, valores in listDict.items():
-                    for valor in valores:
-                        vertex,peso = valor
-                        self.add_vertex(str(chave))
-                        self.add_vertex(str(vertex))
-                        self.add_edge(str(chave), str(vertex), int(peso))"""
-               
+    def DataReader(self, pathFile):   
         with open(pathFile, 'r') as file:
             for line in file:
                 data = line.strip().split()
                 if data[0] == 'a':
-                    self.add_edge(data[1], data[2], int(data[3]))
-        
+                    self.add_edge(data[1], data[2], int(data[3]))       
         #print(self.listaAdjacencia)
