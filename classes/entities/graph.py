@@ -2,6 +2,7 @@ import collections
 import math
 import heapq
 import sys
+import operator
 
 sys.setrecursionlimit(1000000000)
 
@@ -88,7 +89,7 @@ class Graph:
         dfs_visit(v)
         return predecessor, tempo_inicio, tempo_fim
 
-    def encontre_caminho(self, v):
+    def encontre_caminho(self, v, T):
         visitado = {i: False for i in self.listaAdjacencia}
         caminho = []
 
@@ -96,7 +97,7 @@ class Graph:
             visitado[v] = True
             caminho.append(v)
 
-            if len(caminho) >= 10:
+            if len(caminho) >= T:
                 return True
 
             for vizinho, _ in self.listaAdjacencia[v]:
@@ -110,6 +111,22 @@ class Graph:
             return caminho
         else:
             return None
+
+    def encontre_ciclos(self, v):
+        ciclos = self.encontre_caminho(v ,50)
+        
+        ciclosReverse = ciclos.copy()
+        ciclosReverse.reverse()
+        
+        for vertice in ciclos:
+            vizinhos = self.viz(vertice)
+            for vizinho,_ in vizinhos:
+                if ciclosReverse[0] == vizinho:
+                    index = ciclos.index(vertice)
+                    if index >= 5:
+                        ciclo = ciclosReverse[0:index]
+                        ciclo.append(ciclosReverse[0])
+                        return ciclo
 
     def bf(self, v):
         d = {u: math.inf for u in self.vertices}
@@ -129,25 +146,47 @@ class Graph:
         return d, pi
 
     def dijkstra(self, v):
-        d = {v: float('inf') for v in self.listaAdjacencia}
-        pi = {v: None for v in self.listaAdjacencia}
-        
+
+        d, antecessor, Q, visitado = {}, {}, [], set()
+
+        [d.update({vert: 1000000000})for vert in self.listaAdjacencia.keys()]
+        [antecessor.update({vert: None})
+         for vert in self.listaAdjacencia.keys()]
+
         d[v] = 0
+
+        heapq.heappush(Q, v)
+
+        while Q:
+            vert = heapq.heappop(Q)  # B
+
+            if vert in visitado:
+                continue
+            visitado.add(vert)
+
+            self.relaxaDijkstra(d, antecessor, vert)
+            vizinhos = self.viz(vert)
+            for vizinho, _ in vizinhos:
+                if vizinho in visitado or vizinho in Q:
+                    continue
+                heapq.heappush(Q, vizinho)
+
+        return d, antecessor
+
+    def relaxaDijkstra(self, d, antecessor, vertice):
+
+        vizinhos = self.viz(vertice)
+        for vizinho, peso in vizinhos:
+            if d[vizinho] > d[vertice] + peso:
+                d[vizinho] = d[vertice] + peso
+                antecessor[vizinho] = vertice
+
+    def distance(self, v):
+        d, _ = self.dijkstra(v)
+        maior = max(d.items(), key=operator.itemgetter(1))
         
-        priority_queue = [(0, v)]
-        
-        while priority_queue:
-            d_v, vertex = heapq.heappop(priority_queue)
-            
-            for u, w in self.listaAdjacencia[vertex]:
-                new_d = d_v + w
-                if new_d < d[u]:
-                    d[u] = new_d
-                    pi[u] = vertex
-                    heapq.heappush(priority_queue, (new_d, u))
-                    
-        return d, pi
-    
+        return maior
+
     def DataReader(self, pathFile):   
         with open(pathFile, 'r') as file:
             for line in file:
