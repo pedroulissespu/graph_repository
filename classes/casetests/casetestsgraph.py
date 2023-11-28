@@ -7,11 +7,17 @@ class CaseTestsGraphs:
         
         
     def tests(self, isAdjacency, pathFile):
-        if isAdjacency:
-            graph = Graph(pathFile, isAdjacency)
-            print("Numero de arestas do grafo : " , graph.n())
-            print("Numero de vertices do grafo : " , graph.m())
-            print("O menor grau presente no grafo é : ", graph.mind())
-            print("O maior grau presente no grafo é :", graph.maxd())
-        #else:
+        graph = Graph(pathFile)
+        print("Numero de arestas do grafo não direcionado: " , graph.n())
+        print("----------------------------------------------------------------")
+        print("Numero de vertices do grafo não direcionado: " , graph.m())
+        print("----------------------------------------------------------------")
+        print("O menor grau presente no grafo é : ", graph.mind())
+        print("----------------------------------------------------------------")
+        print("O maior grau presente no grafo é :", graph.maxd())
+        print("----------------------------------------------------------------")
+        print("Escolha qual vertice você deseja : ")
+        vertice = str(input())
+        print("----------------------------------------------------------------")
+        print("Caminho de tamanho 10 ou superior para o vértice desejado é : ", graph.find_path_with_dijkstra(vertice))
             
