@@ -2,3 +2,5 @@
 db/a.txt
 db/Teste2.txt
 db/USA-road-d.NY.gr_ListaAdjacencia.txt
+
+*__pycache__
