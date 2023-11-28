@@ -21,5 +21,5 @@ class CaseTestsGraphs:
         print("----------------------------------------------------------------")
         print("Caminho de tamanho 10 ou superior para o vértice desejado é : \n", sorted(graph.encontre_caminho(vertice)))
         print("----------------------------------------------------------------")
-        print("Ciclo com uma quantidade de arestas maior ou igual a 5 para o vertice é : \n", sorted(graph.encontre_ciclo(vertice)))
-            
+        #ciclo = graph.encontre_ciclos(vertice)
+        #print("Ciclo com uma quantidade de arestas maior ou igual a 5 para o vertice é : \n", (str(vertice) for vertice in ciclo))

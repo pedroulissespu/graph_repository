@@ -110,7 +110,7 @@ class Graph:
             return caminho
         else:
             return None
-        
+
     def bf(self, v):
         d = {u: math.inf for u in self.vertices}
         d[v] = 0
@@ -154,4 +154,8 @@ class Graph:
                 data = line.strip().split()
                 if data[0] == 'a':
                     self.add_edge(data[1], data[2], int(data[3]))       
-        #print(self.listaAdjacencia)
+        
+        with open("db/USA-road-d.NY.gr_ListaAdjacencia.txt", 'w') as file:
+            for chave, valor in self.listaAdjacencia.items():
+                linha =  f"{chave}: {valor}\n"
+                file.write(linha)
