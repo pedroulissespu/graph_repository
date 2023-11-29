@@ -33,12 +33,13 @@ class Graph:
 
     def m(self):
         # Retorna o número de arestas no grafo
-        edges = 0
+        edges = set()
         
-        for vertice, neighbors in self.listaAdjacencia.items():
-            edges += len(neighbors)
+        for edge in self.listaAdjacencia.values():
+            for item in edge:
+                edges.add(item)
         
-        return edges // 2
+        return len(edges)
 
     def viz(self, v):
         # Retorna a lista de vizinhos de um vértice
@@ -83,10 +84,10 @@ class Graph:
     
     def dfs(self, v):
         # Realiza uma busca em profundidade a partir de um vértice v, retornando o predecessor e os tempos de início e fim de cada vértice
-        visitado = {i: False for i in self.listaAdjacencia}
-        tempo_inicio = {i: float('inf') for i in self.listaAdjacencia}
-        tempo_fim = {i: float('inf') for i in self.listaAdjacencia}
-        predecessor = {i: None for i in self.listaAdjacencia}
+        visitado = {x: False for x in self.listaAdjacencia}
+        tempo_inicio = {x: None for x in self.listaAdjacencia}
+        tempo_fim = {x: None for x in self.listaAdjacencia}
+        predecessor = {x: None for x in self.listaAdjacencia}
         tempo = [0]
 
         def dfs_visit(u):
@@ -167,10 +168,17 @@ class Graph:
         d, antecessor, Q, visitado = {}, {}, [], set()
 
         [d.update({vert: 1000000000})for vert in self.listaAdjacencia.keys()]
-        [antecessor.update({vert: None})
-         for vert in self.listaAdjacencia.keys()]
+        [antecessor.update({vert: None}) for vert in self.listaAdjacencia.keys()]
 
         d[v] = 0
+        
+        def relaxaDijkstra(d, antecessor, vertice):
+            # Função auxiliar para o algoritmo de Dijkstra que relaxa as arestas
+            vizinhos = self.viz(vertice)
+            for vizinho, peso in vizinhos:
+                if d[vizinho] > d[vertice] + peso:
+                    d[vizinho] = d[vertice] + peso
+                    antecessor[vizinho] = vertice
 
         heapq.heappush(Q, v)
 
@@ -181,7 +189,7 @@ class Graph:
                 continue
             visitado.add(vert)
 
-            self.relaxaDijkstra(d, antecessor, vert)
+            relaxaDijkstra(d, antecessor, vert)
             vizinhos = self.viz(vert)
             for vizinho, _ in vizinhos:
                 if vizinho in visitado or vizinho in Q:
@@ -189,14 +197,6 @@ class Graph:
                 heapq.heappush(Q, vizinho)
 
         return d, antecessor
-
-    def relaxaDijkstra(self, d, antecessor, vertice):
-        # Função auxiliar para o algoritmo de Dijkstra que relaxa as arestas
-        vizinhos = self.viz(vertice)
-        for vizinho, peso in vizinhos:
-            if d[vizinho] > d[vertice] + peso:
-                d[vizinho] = d[vertice] + peso
-                antecessor[vizinho] = vertice
 
     def distance(self, v):
         # Retorna o vértice mais distante a partir de um vértice v usando o algoritmo de Dijkstra
@@ -209,10 +209,13 @@ class Graph:
         # Lê os dados do arquivo e adiciona as arestas ao grafo
         with open(pathFile, 'r') as file:
             for line in file:
-                data = line.strip().split()
-                if data[0] == 'a':
-                    self.add_edge(data[1], data[2], int(data[3]))       
+                if line.strip().split():
+                    data = line.strip().split()
+                    if data[0] == 'a':
+                        self.add_edge(data[1], data[2], int(data[3]))       
         # Escreve a lista de adjacência do grafo em um arquivo
+        for item in self.listaAdjacencia.items():
+            print(item)
         with open("db/USA-road-d.NY.gr_ListaAdjacencia.txt", 'w') as file:
             for chave, valor in self.listaAdjacencia.items():
                 linha =  f"{chave}: {valor}\n"

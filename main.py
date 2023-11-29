@@ -1,4 +1,5 @@
 from classes.casetests.casetestsgraph import CaseTestsGraphs
+from classes.casetests.casetestsdigraph import CaseTestsDigraphs
 import time
 import os
 
@@ -9,10 +10,11 @@ def limpar_tela():
         os.system('clear')
 
 pathFile = "db/USA-road-d.NY.gr.txt"
+#pathFile = "db/teste.gr"
 
 while True:
     print("Selecione uma opção :")
-    print("1 - Grafo não Direcionado        2 - Digrafo        3 - Sair")
+    print("1 - Grafo não Direcionado\n2 - Digrafo\n3 - Sair")
     escolha = str(input())
     
     if int(escolha) == 1:
@@ -22,7 +24,7 @@ while True:
         limpar_tela()
         
     elif int(escolha) == 2:
-        casetestsgraphs = CaseTestsGraphs(pathFile)
+        casetestsdigraphs = CaseTestsDigraphs(pathFile)
         print("Pressione ENTER para continuar")
         pressioneEnter = str(input())
         limpar_tela()
@@ -46,3 +48,6 @@ while True:
         print("Pressione ENTER para continuar")
         pressioneEnter = str(input())
         limpar_tela()
+        
+time.sleep(2)
+os.system('exit')

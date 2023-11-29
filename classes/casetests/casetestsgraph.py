@@ -19,7 +19,7 @@ class CaseTestsGraphs:
         print("Escolha qual vertice você deseja : ")
         vertice = str(input())
         print("----------------------------------------------------------------")
-        print("Caminho de tamanho 10 ou superior para o vértice desejado é : \n", sorted(graph.encontre_caminho(vertice,10)))
+        print("Caminho de tamanho 10 ou superior para o vértice desejado é : \n", graph.encontre_caminho(vertice,10))
         print("----------------------------------------------------------------")
         print("Ciclo com uma quantidade de arestas maior ou igual a 5 para o vertice é : \n", graph.encontre_ciclos(vertice))
         print("----------------------------------------------------------------")
