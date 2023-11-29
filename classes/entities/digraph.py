@@ -9,9 +9,13 @@ sys.setrecursionlimit(1000000000)
 
 class Digraph(Graph):
     def __init__(self, pathFile=str):
+        # Chama o construtor da classe pai (Graph)
         super().__init__(pathFile)
         
     def add_edge(self, u, v ,w):
+        # Adiciona uma aresta direcionada ao grafo. Diferentemente de um grafo não direcionado, 
+        # uma aresta direcionada vai de um vértice 'u' para um vértice 'v', mas não necessariamente 
+        # na direção oposta.
         if u in self.listaAdjacencia.keys():
             if "positivo" in self.listaAdjacencia[u].keys():
                 self.listaAdjacencia[u]["positivo"].append((v, w))
@@ -28,6 +32,8 @@ class Digraph(Graph):
             self.listaAdjacencia.update({v: {"negativo": [(u, w)]}})
             
     def viz(self, v):
+         # Retorna os vizinhos de um vértice. Em um digrafo, um vértice tem vizinhos "positivos" 
+         # (para onde ele tem arestas) e "negativos" (de onde ele recebe arestas).
         positivos, negativos = set(), set()
         
         for p in self.listaAdjacencia[v]["positivo"]:
@@ -38,9 +44,11 @@ class Digraph(Graph):
         return positivos, negativos
     
     def n(self):
+        # Retorna o número de vértices no grafo
         return len(self.listaAdjacencia.keys())
     
     def m(self):
+        # Retorna o número de arestas no grafo
         Arcs = 0
         for v in self.listaAdjacencia.keys():
             vizinhos = self.viz(v)
@@ -50,13 +58,17 @@ class Digraph(Graph):
         return Arcs
     
     def d(self, v):
+        # Retorna o grau de um vértice (número de vizinhos). Em um digrafo, um vértice tem grau "positivo" 
+        # (número de arestas que saem dele) e "negativo" (número de arestas que chegam nele).
         vizP, vizN = self.viz(v)
         return len(vizP), len(vizN)
     
     def mind(self):
+        # Retorna o menor grau entre todos os vértices do grafo
         return min([(self.d(v))[0] for v in self.listaAdjacencia.keys()]), min([(self.d(v))[1] for v in self.listaAdjacencia.keys()])
     
     def maxd(self):
+        # Retorna o maior grau entre todos os vértices do grafo
         return max([(self.d(v))[0] for v in self.listaAdjacencia.keys()]), max([(self.d(v))[1] for v in self.listaAdjacencia.keys()])
     
     def encontre_caminho(self, v, T):
@@ -144,6 +156,8 @@ class Digraph(Graph):
                         return ciclo
     
     def bfs(self, s):
+        # Realiza uma busca em largura a partir de um vértice s, 
+        # retornando a distância e o predecessor de cada vértice
         color = {u: "white" for u in self.listaAdjacencia.keys()}
         d = {u: math.inf for u in self.listaAdjacencia.keys()}
         pi = {u: None for u in self.listaAdjacencia.keys()}
@@ -163,6 +177,7 @@ class Digraph(Graph):
         return d, pi
 
     def dfs_visit(self, u, color, d, f, pi, time):
+        # Função auxiliar para a busca em profundidade que visita os vértices
         time += 1
         d[u] = time
         color[u] = "gray"
@@ -176,6 +191,8 @@ class Digraph(Graph):
         return time
 
     def dfs(self, s):
+        # Realiza uma busca em profundidade a partir de um vértice s, 
+        # retornando o predecessor e os tempos de início e fim de cada vértice
         color = {u: "white" for u in self.listaAdjacencia.keys()}
         pi = {u: None for u in self.listaAdjacencia.keys()}
         d = {u: float('inf') for u in self.listaAdjacencia.keys()}
@@ -186,6 +203,7 @@ class Digraph(Graph):
         return pi, d, f
 
     def bf(self, s):
+        # Implementa o algoritmo de Bellman-Ford para encontrar o caminho mais curto a partir de um vértice s
         d = {u: math.inf for u in self.listaAdjacencia.keys()}
         pi = {u: None for u in self.listaAdjacencia.keys()}
         d[s] = 0

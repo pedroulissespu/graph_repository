@@ -3,10 +3,11 @@ from classes.entities.graph import Graph
 class CaseTestsGraphs:
     
     def __init__(self, pathFile):
+        # Inicializa a classe e executa os testes
         self.tests(pathFile)
         
-        
     def tests(self,pathFile):
+        # Cria um objeto Graph e executa uma série de testes nele
         graph = Graph(pathFile)
         print("Numero de arestas do grafo não direcionado: " , graph.n())
         print("----------------------------------------------------------------")

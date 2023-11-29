@@ -3,10 +3,11 @@ from classes.entities.digraph import Digraph
 class CaseTestsDigraphs:
     
     def __init__(self, pathFile):
+        # Inicializa a classe e executa os testes
         self.tests(pathFile)
         
-        
     def tests(self,pathFile):
+        # Cria um objeto Digraph e executa uma série de testes nele
         digraph = Digraph(pathFile)
         print("Numero de arestas do grafo não direcionado: " , digraph.n())
         print("----------------------------------------------------------------")
