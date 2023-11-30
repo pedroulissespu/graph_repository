@@ -11,7 +11,7 @@ def limpar_tela():
         os.system('clear')
 
 # Caminho para o arquivo de dados do grafo
-pathFile = "db/USA-road-d.NY.gr.txt"
+pathFile = "db/USA-road-d.NY.gr"
 
 # Loop principal do programa
 while True:
