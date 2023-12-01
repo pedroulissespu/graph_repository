@@ -2,7 +2,7 @@ from classes.casetests.casetestsgraph import CaseTestsGraphs
 from classes.casetests.casetestsdigraph import CaseTestsDigraphs
 import time
 import os
-
+ 
 # Função criada apenas para limpar a tela do terminal
 def limpar_tela():
     if os.name == 'nt':

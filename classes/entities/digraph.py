@@ -87,12 +87,11 @@ class Digraph(Graph):
             int: O número de arestas no grafo.
         """
         Arcs = 0
-        for v in self.listaAdjacencia.keys():
-            vizinhos = self.viz(v)
-            Arcs += len(vizinhos[0])
-            Arcs += len(vizinhos[1])
+        for v, vizinhos in self.listaAdjacencia.items():
+            for direcao, arestas in vizinhos.items():
+                Arcs += len(arestas)
                 
-        return Arcs
+        return Arcs // 2
     
     def d(self, v):
         """

@@ -11,11 +11,11 @@ class CaseTestsGraphs:
         graph = Graph(pathFile)
         strTxT = ""
         print("Numero de arestas do grafo não direcionado: " , graph.n())
-        strTxT += "Numero de arestas do grafo não direcionado: " + str(graph.n()) + "\n"
+        strTxT += "Numero de vertices do grafo não direcionado: " + str(graph.n()) + "\n"
         print("----------------------------------------------------------------")
         strTxT += "----------------------------------------------------------------\n"
         print("Numero de vertices do grafo não direcionado: " , graph.m())
-        strTxT += "Numero de vertices do grafo não direcionado: " + str(graph.m()) + "\n"
+        strTxT += "Numero de arestas do grafo não direcionado: " + str(graph.m()) + "\n"
         print("----------------------------------------------------------------")
         strTxT += "----------------------------------------------------------------\n"
         print("O menor grau presente no grafo é : ", graph.mind())

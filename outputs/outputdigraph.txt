@@ -1,6 +1,6 @@
-Numero de arestas do Dígrafo ( Grafo Direcionado ): 264346
+Numero de vertices do Dígrafo ( Grafo Direcionado ): 264346
 ----------------------------------------------------------------
-Numero de vertices do Dígrafo ( Grafo Direcionado ): 1460200
+Numero de arestas do Dígrafo ( Grafo Direcionado ): {'e', 'n', 'o', 'p'}
 ----------------------------------------------------------------
 O menor grau presente no Dígrafo ( Grafo Direcionado ) é : (1, 1)
 ----------------------------------------------------------------

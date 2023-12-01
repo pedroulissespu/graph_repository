@@ -11,11 +11,11 @@ class CaseTestsDigraphs:
         digraph = Digraph(pathFile)
         strTxT = ""
         print("Numero de arestas do Dígrafo ( Grafo Direcionado ): " , digraph.n())
-        strTxT += "Numero de arestas do Dígrafo ( Grafo Direcionado ): " + str(digraph.n()) + "\n"
+        strTxT += "Numero de vertices do Dígrafo ( Grafo Direcionado ): " + str(digraph.n()) + "\n"
         print("----------------------------------------------------------------")
         strTxT += "----------------------------------------------------------------\n"
         print("Numero de vertices do Dígrafo ( Grafo Direcionado ): " , digraph.m())
-        strTxT += "Numero de vertices do Dígrafo ( Grafo Direcionado ): " + str(digraph.m()) + "\n"
+        strTxT += "Numero de arestas do Dígrafo ( Grafo Direcionado ): " + str(digraph.m()) + "\n"
         print("----------------------------------------------------------------")
         strTxT += "----------------------------------------------------------------\n"
         print("O menor grau presente no Dígrafo ( Grafo Direcionado ) é : ", digraph.mind())
